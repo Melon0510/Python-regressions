@@ -1,0 +1,34 @@
+# Section 17.1 in Woodridge "Introductory Econometrics: A Modern Approach"
+
+import wooldridge as woo
+import statsmodels.formula.api as smf
+
+mroz = woo.dataWoo('mroz')
+
+# estimate logit model:
+reg_logit = smf.logit(formula='inlf ~ nwifeinc + educ + exper +'
+                              'I(exper**2) + age + kidslt6 + kidsge6',
+                      data=mroz)
+
+# disp = 0 avoids printing out information during the estimation:
+results_logit = reg_logit.fit(disp=0)
+print(f'results_logit.summary(): \n{results_logit.summary()}\n')
+
+# log likelihood value:
+print(f'results_logit.llf: {results_logit.llf}\n')
+
+# McFadden's pseudo R2:
+print(f'results_logit.prsquared: {results_logit.prsquared}\n')
+
+# estimate probit model:
+reg_probit = smf.probit(formula='inlf ~ nwifeinc + educ + exper +'
+                                'I(exper**2) + age + kidslt6 + kidsge6',
+                        data=mroz)
+results_probit = reg_probit.fit(disp=0)
+print(f'results_probit.summary(): \n{results_probit.summary()}\n')
+
+# log likelihood value:
+print(f'results_probit.llf: {results_probit.llf}\n')
+
+# McFadden's pseudo R2:
+print(f'results_probit.prsquared: {results_probit.prsquared}\n')
